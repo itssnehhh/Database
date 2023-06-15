@@ -1,0 +1,154 @@
+-----------------------------------------------------------------------------------  ASSIGNMENT  -------------------------------------------------------------------------------------------
+
+//For Create Database
+CREATE DATABASE assignment;
+
+
+1] Create Table Name : Student and Exam
+
+=> CREATE TABLE student(RollNo int AUTO_INCREMENT,
+                    Name varchar(200),
+                    Branch varchar(200),
+                    PRIMARY KEY (RollNo)
+                    );        	   
+INSERT INTO student(Name,Branch)
+             VALUES("Jay","Computer Science"),
+               	   ("Suhani","Electronic and Com"),
+            	   ("Kriti","Electronic and Com");
+            	  
+=> CREATE TABLE exam(RollNo int, 
+		     S_code varchar(100), 
+		     Marks int, 
+		     P_code varchar(100),
+		     FOREIGN KEY (RollNO) REFERENCES student(RollNo)
+		     );
+INSERT INTO exam(RollNo, S_code, Marks, P_code)
+			VALUES(1,"CS110",50,"CS"),
+           		  (1,"CS110",60,"CS"),
+            	 	  (2,"EC101",66,"EC"),
+           		  (2,"EC102",70,"EC"),
+               		  (3,"EC101",45,"EC"),
+            	  	  (3,"EC102",50,"EC");
+
+2] 
+
+=> CREATE TABLE question2(FirstName Varchar(40),
+                      LastName varchar(40),
+                      Address varchar(50),
+                      City varchar(20),
+                      Age INT
+                      );
+
+INSERT INTO question2 (FirstName,LastName,Address,City,Age)
+			VALUES("Mickey","Mouse","123Fantasy Way","Anaheim",73),
+            		("Bat","Man","321 Cavern Ave","Gotham",54),
+            		("Wonder","Women","987 Truth Way","Paradise",39),
+            		("Donald","Duck","555 Quack Streer","Mallard",65),
+            		("Bugs","Bunny","567 Carrot Street","Rascal",58),
+            		("Wiley","Coyote","999 Acme Way","Canyon",61),
+            		("Cat","Woman","234 Purrfect Street","Hairball",32),
+            		("Tweety","Bird","543 ","Itotltaw",28);
+            		
+
+3] Create table given below : Employee and Incentive
+
+=>  CREATE TABLE employee (Employee_id int AUTO-INCREMENT,
+			   First_name varchar(20),
+			   Last_name varchar(20),
+			   Salary int,
+			   Joining_date datetime,
+			   Department varchar(50),
+			   PRIMARY KEY (Employee_id)
+			   );
+
+INSERT INTO employee (First_name,Last_name,Salary,Joining_date,Department)
+		VALUES("John","Abraham",1000000,'2013-01-01 12:00:00',"Banking"),
+			("Micheal","Clarke",800000,'2013-01-01 12:00:00',"Insurance"),
+			("Roy","Thomas",700000,'2013-02-01 12:00:00',"Banking"),
+			("Tom","Jose",600000,'2013-02-01 12:00:00',"Insurance"),
+			("Jerry","Pinto",650000,'2013-02-01 12:00:00',"Insurance"),
+			("Philip","Mathew",750000,'2013-01-01 12:00:00',"Services"),
+			("Testname1","123",650000,'2013-01-01 12:00:00',"Services"),
+			("Testname2","Lname%",600000,'2013-02-01 12:00:00',"Insurance");
+
+=> CREATE TABLE Incentive(Employee_id int,
+			  Incentive_date date,
+			  Incentive_amount int
+			  FOREIGN KEY (Employee_id) REFERENCES employee(Employee_id)
+			  );
+
+INSERT INTO incentive(Employee_id,Incentive_date,Incentive_amount)
+			VALUES(1,"2013-02-01",5000),
+			      (2,"2013-02-01",3000),
+			      (3,"2013-02-01",4000),
+			      (1,"2013-01-01",4500),
+			      (2,"2013-01-01",3500);
+					
+
+
+a) Get First_Name from employee table using Tom name “Employee Name”.
+=> SELECT TRIM(First_name) FROM employee;
+
+b) Get FIRST_NAME, Joining Date, and Salary from employee table.
+=> SELECT First_name,Joining_date,SAlary FROM employee;
+
+c) Get all employee details from the employee table order by First_Name Ascending and Salary descending.
+=> SELECT * FROM employee ORDER BY First_name ASC;
+   SELECT * FROM employee ORDER BY SAlary DESC;
+
+d) Get employee details from employee table whose first name contains ‘J’.
+=> SELECT * FROM employee WHERE First_name LIKE '%j%';
+
+e) Get department wise maximum salary from employee table order by salary ascending.
+=> SELECT max(SAlary) FROM employee GROUP BY department;
+   SELECT First_name,max(SAlary) FROM employee GROUP BY department;
+
+f) Select first_name, incentive amount from employee and incentives table for those employees who have incentives and incentive amount greater than 3000.
+=> SELECT employee.First_name , incentive.Incentive_amount FROM employee INNER JOIN incentive ON employee.Employee_id = incentive.Employee_id WHERE Incentive_amount > 3000;
+
+g) Create After Insert trigger on Employee table which insert records in view table.
+=>
+
+
+
+
+4. Create table given below: Salesperson and Customer.
+
+=> CREATE table salesperson(SNo int AUTO_INCREMENT,
+                        SName varchar(20),
+                        CITY varchar(20),
+                        COMM float,
+                        PRIMARY KEY (SNo));
+
+INSERT INTO salesperson(SNo,SName,CITY,COMM)
+		VALUES(1001,"Peel","London",0.12),
+			(1002,"Serres","San Jose",0.13),
+			(1004,"Motikia","London",0.11),
+			(1007,"Rafkin","Barcelona",0.15),
+			(1003,"Axeirod","New York",0.1);
+
+
+
+=>CREATE TABLE customer(CNM int AUTO_INCREMENT,
+                     CNAME varchar(20),
+                     CITY varchar(20),
+                     RATING int,
+                     SNo int,
+                     PRIMARY key(CNM),
+                     FOREIGN KEY (SNo)REFERENCES salesperson(SNo) );
+
+
+
+
+b) Names and cities of all salespeople in London with commission above 0.12.
+=> SELECT SNAME,CITY FROM salesperson WHERE CITY ="London" AND COMM > 0.12;
+
+c) All salespeople either in Barcelona or in London
+=> SELECT * FROM salesperson WHERE CITY = "Barcelona" OR "London";
+=> SELECT * FROM salesperson WHERE CITY = "London" OR "Barcelona";
+
+d) All salespeople with commission between 0.10 and 0.12.
+=> SELECT * FROM salesperson WHERE COMM BETWEEN 0.10 AND 0.12;
+
+e) All customers excluding those with rating <= 100 unless they are located in Rome.
+=> SELECT * FROM customer WHERE RATING <=100 AND CITY ="Roe"; 
